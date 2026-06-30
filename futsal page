@@ -27,22 +27,23 @@
   .live{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--loss);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
   .dot{width:7px;height:7px;border-radius:50%;background:var(--loss);animation:pulse 1.3s infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
-  .bal{margin-left:auto;text-align:right}
+  .bal{margin-inline-start:auto;text-align:end}
   .bal .l{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px}
   .bal b{display:block;font-size:18px;color:var(--fair);font-family:'Spline Sans Mono',monospace}
   .langwrap{position:relative}
   .langbtn{background:var(--ink2);border:1px solid var(--line2);color:var(--paper);font-family:inherit;font-size:13px;font-weight:600;padding:7px 11px;border-radius:9px;cursor:pointer;white-space:nowrap}
-  .langmenu{position:absolute;top:calc(100% + 6px);right:0;background:var(--panel);border:1px solid var(--line2);border-radius:11px;padding:5px;display:none;flex-direction:column;gap:2px;z-index:40;box-shadow:0 10px 30px rgba(0,0,0,.5);min-width:148px}
+  .langmenu{position:absolute;top:calc(100% + 6px);inset-inline-end:0;background:var(--panel);border:1px solid var(--line2);border-radius:11px;padding:5px;display:none;flex-direction:column;gap:2px;z-index:40;box-shadow:0 10px 30px rgba(0,0,0,.5);min-width:148px}
   .langmenu.open{display:flex}
   .langmenu button{background:none;border:none;color:var(--paper);font-family:inherit;font-size:14px;text-align:left;padding:10px 12px;border-radius:7px;cursor:pointer;display:flex;align-items:center;gap:9px;white-space:nowrap}
-  .langmenu button:hover,.langmenu button.on{background:var(--ink2)}
-  .langmenu button.on{color:var(--fair)}
-  [dir=rtl] .bal{text-align:left}
+  
+  @media (hover: hover) {
+    .langmenu button:hover { background: var(--ink2); }
+  }
+  .langmenu button.on { color: var(--fair); background: var(--ink2); }
+
+  /* RTL Scoreboard overrides that require specific visual flipping */
   [dir=rtl] .tm.a{flex-direction:row}
   [dir=rtl] .tm.h{flex-direction:row-reverse;text-align:right}
-  [dir=rtl] .langmenu{right:auto;left:0}
-  [dir=rtl] .settle,[dir=rtl] .edge{border-left:none;border-right:2px solid var(--fair)}
-  [dir=rtl] .edge{border-right-width:3px;border-right-color:var(--price)}
 
   .intro{padding:22px 0 18px;border-bottom:2px solid var(--line);background:var(--ink);position:relative}
   .intro h2{font-family:'Bebas Neue',sans-serif;font-size:34px;font-weight:400;line-height:.98;letter-spacing:.5px;text-transform:uppercase;color:var(--paper)}
@@ -67,7 +68,7 @@
   .board .row{position:relative}
   .board .row{display:flex;align-items:center;gap:12px}
   .tm{flex:1;display:flex;align-items:center;gap:10px;min-width:0}
-  .tm.a{flex-direction:row-reverse;text-align:right}
+  .tm.a{flex-direction:row-reverse;text-align:end}
   .fl{font-size:30px;line-height:1}
   .tm .nm{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:22px;letter-spacing:.5px;line-height:1}
   .tm .wp{font-size:11px;color:var(--dim);margin-top:3px}
@@ -103,7 +104,7 @@
   .pk.sel .fr{color:#0a3a30}
   .locked{text-align:center;color:var(--dim);font-size:13px;border:1px dashed var(--line);border-radius:12px;padding:16px}
 
-  .edge{border:1px solid var(--line);border-left:4px solid var(--spray);border-radius:10px;padding:14px 16px;margin:16px 0;background:var(--ink2);position:relative}
+  .edge{border:1px solid var(--line);border-inline-start:4px solid var(--spray);border-radius:10px;padding:14px 16px;margin:16px 0;background:var(--ink2);position:relative}
   .edge b{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:19px;letter-spacing:.5px;color:var(--price);text-transform:uppercase;display:block}
   .edge p{font-size:13px;color:var(--muted);margin-top:5px;line-height:1.5}
 
@@ -116,7 +117,7 @@
   .selq{font-size:15px;font-weight:600}
   .selq b{color:var(--fair)}
   .selmeta{font-size:12.5px;color:var(--dim);margin:4px 0 10px}
-  .settle{display:flex;gap:8px;background:var(--ink);border:1px solid var(--line);border-left:2px solid var(--fair);border-radius:8px;padding:9px 11px;font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.45}
+  .settle{display:flex;gap:8px;background:var(--ink);border:1px solid var(--line);border-inline-start:2px solid var(--fair);border-radius:8px;padding:9px 11px;font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.45}
   .settle b{color:var(--fair)}
   .fl-lab{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px;display:block}
   .stake{display:flex;align-items:center;border:1px solid var(--line2);border-radius:10px;background:var(--ink)}
@@ -155,7 +156,10 @@
     <button class="langbtn" id="langbtn" onclick="toggleLang()"><span id="langflag">🇬🇧</span> <span id="langcode">EN</span> ▾</button>
     <div class="langmenu" id="langmenu"></div>
   </div>
-  <div class="bal"><div class="l" id="t_balance">Play balance</div><b id="bank">$1,000</b></div>
+  <div class="bal">
+    <div class="l" id="t_balance">Play balance <span id="session_pnl" style="font-weight:600"></span></div>
+    <b id="bank">$1,000</b>
+  </div>
 </div></header>
 
 <div class="intro"><div class="wrap">
@@ -189,11 +193,17 @@
 </div></footer>
 
 <div class="slip" id="slip"><div class="slip-in" id="slipBody"></div></div>
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" aria-live="polite" role="status"></div>
 
 <script>
 const MARGIN=0.022;
-let bank=1000, sel=null, curMatch=0, curTab='result', lang='en';
+
+// Storage and State
+let bank = parseFloat(localStorage.getItem('futsal_bank'));
+if (isNaN(bank)) bank = 1000;
+let sessionStartBank = bank; 
+let lang = localStorage.getItem('futsal_lang') || 'en';
+let sel = null, curMatch = 0, curTab = 'result';
 
 // ---- translations ----
 const LANGS=[['en','English','🇬🇧'],['es','Español','🇪🇸'],['fr','Français','🇫🇷'],['pt','Português','🇵🇹'],['de','Deutsch','🇩🇪'],['ar','العربية','🇸🇦']];
@@ -395,9 +405,17 @@ function openSlip(){
     </div>
     <div class="pnote" id="pn"></div>
     <button class="place" id="place" onclick="place()">${t('placeBet')}</button>`;
+  
   document.getElementById('slip').classList.add('up');
-  document.getElementById('stake').oninput=calc;
-  document.getElementById('risk').oninput=calc;
+  
+  const stakeInput = document.getElementById('stake');
+  stakeInput.oninput = calc;
+  // Bulletproof the number input from 'e', '+' and '-'
+  stakeInput.addEventListener('keydown', e => {
+    if (['e', 'E', '+', '-'].includes(e.key)) e.preventDefault();
+  });
+  
+  document.getElementById('risk').oninput = calc;
   calc();
 }
 function setStake(v){document.getElementById('stake').value=v;calc();}
@@ -422,11 +440,29 @@ function place(){
   const stake=+document.getElementById('stake').value, protect=+document.getElementById('risk').value/100, p=sel.p;
   const refunded=protect*stake, trim=((1-p)*refunded)/p, adj=stake*(price(p)-1)-trim, loss=stake-refunded;
   const won=Math.random()<p;
+  
+  // Update Bank and Storage
   bank+=won?adj:-loss;
-  document.getElementById('bank').textContent=money(bank);
+  localStorage.setItem('futsal_bank', bank);
+  updateBankDisplay();
+  
   toast(won?`✓ ${sel.lab} · ${sel.q}: ${t('won')} ${money(adj)}`:`✗ ${sel.lab} · ${sel.q}: ${t('lost')} ${money(loss)}`,won);
   closeSlip();
 }
+
+function updateBankDisplay() {
+  document.getElementById('bank').textContent = money(bank);
+  const pnl = bank - sessionStartBank;
+  const pnlEl = document.getElementById('session_pnl');
+  if (pnl === 0) {
+    pnlEl.textContent = '';
+  } else {
+    const sign = pnl > 0 ? '+' : '';
+    pnlEl.textContent = ` · Session: ${sign}${money(pnl)}`;
+    pnlEl.style.color = pnl > 0 ? 'var(--win)' : 'var(--loss)';
+  }
+}
+
 function toast(msg,won){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show'+(won?'':' lose');setTimeout(()=>t.className='toast'+(won?'':' lose'),3200);}
 
 function applyStatic(){
@@ -444,6 +480,7 @@ function renderLangMenu(){
 function toggleLang(){document.getElementById('langmenu').classList.toggle('open');}
 function setLang(code){
   lang=code;
+  localStorage.setItem('futsal_lang', lang);
   document.documentElement.lang=code;
   document.documentElement.dir=RTL.includes(code)?'rtl':'ltr';
   document.getElementById('langmenu').classList.remove('open');
@@ -454,7 +491,14 @@ document.addEventListener('click',e=>{
   if(!e.target.closest('.langwrap')) document.getElementById('langmenu').classList.remove('open');
 });
 
-renderLangMenu();applyStatic();renderMscroll();renderBoard();renderTabs();renderMarkets();
+// Initialize App
+updateBankDisplay();
+renderLangMenu();
+applyStatic();
+renderMscroll();
+renderBoard();
+renderTabs();
+renderMarkets();
 </script>
 </body>
 </html>
