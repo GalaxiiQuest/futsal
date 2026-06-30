@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+<title>Futsal · World Cup 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&family=Spline+Sans+Mono:wght@500;600&family=Fraunces:opsz,wght@9..144,600;9..144,900&display=swap');
+  :root{
+    --ink:#0a110e;--ink2:#111d18;--paper:#f6f8f2;--panel:#16241e;--line:#2c403a;--line2:#3e5950;
+    --fair:#86e3d4;--price:#ffcb45;--win:#86e3d4;--loss:#ff6b4a;--muted:#c8d8d0;--dim:#9fb3aa;
+    --spray:#ff6b4a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html{-webkit-text-size-adjust:100%}
+  body{background:var(--ink);color:var(--paper);font-family:'Inter',system-ui,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;padding-bottom:90px;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");}
+  .mono{font-family:'Spline Sans Mono',monospace}
+  .wrap{max-width:760px;margin:0 auto;padding:0 16px}
+  /* graffiti display face */
+  .graf{font-family:'Bebas Neue','Arial Narrow',sans-serif;letter-spacing:.5px;font-weight:400}
+
+  header{border-bottom:2px solid var(--spray);padding:12px 0;position:sticky;top:0;background:rgba(10,17,14,.97);backdrop-filter:blur(8px);z-index:30}
+  header .wrap{display:flex;align-items:center;gap:10px}
+  .logo{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:30px;letter-spacing:1px;transform:skewX(-7deg);color:var(--paper);text-shadow:2px 2px 0 var(--spray)}
+  .logo span{color:var(--fair)}
+  .live{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--loss);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--loss);animation:pulse 1.3s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+  .bal{margin-left:auto;text-align:right}
+  .bal .l{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px}
+  .bal b{display:block;font-size:18px;color:var(--fair);font-family:'Spline Sans Mono',monospace}
+  .langwrap{position:relative}
+  .langbtn{background:var(--ink2);border:1px solid var(--line2);color:var(--paper);font-family:inherit;font-size:13px;font-weight:600;padding:7px 11px;border-radius:9px;cursor:pointer;white-space:nowrap}
+  .langmenu{position:absolute;top:calc(100% + 6px);right:0;background:var(--panel);border:1px solid var(--line2);border-radius:11px;padding:5px;display:none;flex-direction:column;gap:2px;z-index:40;box-shadow:0 10px 30px rgba(0,0,0,.5);min-width:148px}
+  .langmenu.open{display:flex}
+  .langmenu button{background:none;border:none;color:var(--paper);font-family:inherit;font-size:14px;text-align:left;padding:10px 12px;border-radius:7px;cursor:pointer;display:flex;align-items:center;gap:9px;white-space:nowrap}
+  .langmenu button:hover,.langmenu button.on{background:var(--ink2)}
+  .langmenu button.on{color:var(--fair)}
+  [dir=rtl] .bal{text-align:left}
+  [dir=rtl] .tm.a{flex-direction:row}
+  [dir=rtl] .tm.h{flex-direction:row-reverse;text-align:right}
+  [dir=rtl] .langmenu{right:auto;left:0}
+  [dir=rtl] .settle,[dir=rtl] .edge{border-left:none;border-right:2px solid var(--fair)}
+  [dir=rtl] .edge{border-right-width:3px;border-right-color:var(--price)}
+
+  .intro{padding:22px 0 18px;border-bottom:2px solid var(--line);background:var(--ink);position:relative}
+  .intro h2{font-family:'Bebas Neue',sans-serif;font-size:34px;font-weight:400;line-height:.98;letter-spacing:.5px;text-transform:uppercase;color:var(--paper)}
+  .intro h2 em{font-style:normal;color:#06120e;background:var(--fair);padding:0 7px;display:inline-block;transform:skewX(-6deg)}
+  .intro p{color:var(--muted);font-size:14px;margin-top:11px;line-height:1.5}
+  .chips{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+  .chip{font-size:12px;border:1px solid var(--line2);padding:6px 11px;border-radius:40px;color:var(--muted)}
+  .chip b{color:var(--fair)}
+  .chip.amber b{color:var(--price)}
+
+  .mscroll{display:flex;gap:8px;overflow-x:auto;padding:14px 0;scrollbar-width:none}
+  .mscroll::-webkit-scrollbar{display:none}
+  .mcard{flex-shrink:0;border:1px solid var(--line);border-radius:12px;padding:11px 13px;background:var(--ink2);cursor:pointer;min-width:150px;transition:.15s}
+  .mcard.on{border-color:var(--fair);background:var(--panel)}
+  .mcard .when{font-size:11px;color:var(--dim);display:flex;align-items:center;gap:5px;margin-bottom:6px}
+  .mcard .when .live-d{width:6px;height:6px;border-radius:50%;background:var(--loss)}
+  .mcard .vs{font-size:14px;font-weight:600;line-height:1.35}
+  .mcard .sc{font-size:12px;color:var(--fair);font-family:'Spline Sans Mono',monospace;margin-top:3px}
+
+  .board{border:1px solid var(--line);border-radius:14px;padding:16px;margin:6px 0 16px;background:var(--ink2);position:relative;overflow:hidden}
+  .board::before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(45deg,transparent,transparent 18px,rgba(134,227,212,.05) 18px,rgba(134,227,212,.05) 19px),repeating-linear-gradient(-45deg,transparent,transparent 18px,rgba(134,227,212,.05) 18px,rgba(134,227,212,.05) 19px);pointer-events:none}
+  .board .row{position:relative}
+  .board .row{display:flex;align-items:center;gap:12px}
+  .tm{flex:1;display:flex;align-items:center;gap:10px;min-width:0}
+  .tm.a{flex-direction:row-reverse;text-align:right}
+  .fl{font-size:30px;line-height:1}
+  .tm .nm{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:22px;letter-spacing:.5px;line-height:1}
+  .tm .wp{font-size:11px;color:var(--dim);margin-top:3px}
+  .gl{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:38px;min-width:24px;text-align:center;line-height:1;color:var(--price)}
+  .ck{text-align:center;min-width:52px}
+  .ck .m{font-family:'Spline Sans Mono',monospace;color:var(--loss);font-size:15px;font-weight:600}
+  .ck .s{font-size:10px;color:var(--dim);text-transform:uppercase}
+
+  .tabs{display:flex;gap:6px;overflow-x:auto;position:sticky;top:60px;background:var(--ink);z-index:20;padding:10px 0;scrollbar-width:none;border-bottom:1px solid var(--line)}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{flex-shrink:0;border:1px solid var(--line);background:transparent;color:var(--muted);font-family:inherit;font-size:14px;font-weight:500;padding:9px 16px;border-radius:40px;cursor:pointer}
+  .tab.on{background:var(--fair);color:#06120e;border-color:var(--fair);font-weight:600}
+
+  .grp{margin:18px 0}
+  .ghead{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:3px}
+  .ghead h3{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:22px;letter-spacing:.6px;text-transform:uppercase;color:#000000;background:var(--fair);padding:3px 10px;border-radius:5px;display:inline-block}
+  .tag{font-size:10px;text-transform:uppercase;letter-spacing:.5px;padding:3px 8px;border-radius:30px;font-weight:600}
+  .tag.live{background:rgba(255,154,128,.16);color:var(--loss)}
+  .tag.hr{background:rgba(134,227,212,.14);color:var(--fair)}
+  .gsub{font-size:12.5px;color:var(--dim);margin-bottom:11px}
+  .gsub .src{color:var(--fair)}
+
+  .mk{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:13px;margin-bottom:9px;background:var(--ink2)}
+  .mk .q{flex:1;font-size:14.5px;font-weight:500;min-width:0;color:var(--paper)}
+  .picks{display:flex;gap:7px;flex-shrink:0}
+  .pk{border:1px solid var(--line2);background:var(--ink);color:var(--paper);font-family:inherit;border-radius:10px;padding:9px 12px;cursor:pointer;text-align:center;min-width:70px;transition:.12s}
+  .pk:active{transform:scale(.96)}
+  .pk.sel{background:var(--fair);border-color:var(--fair);color:#06120e}
+  .pk .lab{font-size:11px;color:var(--dim);display:block;margin-bottom:2px;font-weight:500}
+  .pk.sel .lab{color:#06120e}
+  .pk .od{font-size:16px;font-weight:600;font-family:'Spline Sans Mono',monospace}
+  .pk .fr{font-size:10px;color:var(--fair);font-family:'Spline Sans Mono',monospace;margin-top:1px}
+  .pk.sel .fr{color:#0a3a30}
+  .locked{text-align:center;color:var(--dim);font-size:13px;border:1px dashed var(--line);border-radius:12px;padding:16px}
+
+  .edge{border:1px solid var(--line);border-left:4px solid var(--spray);border-radius:10px;padding:14px 16px;margin:16px 0;background:var(--ink2);position:relative}
+  .edge b{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:19px;letter-spacing:.5px;color:var(--price);text-transform:uppercase;display:block}
+  .edge p{font-size:13px;color:var(--muted);margin-top:5px;line-height:1.5}
+
+  .slip{position:fixed;left:0;right:0;bottom:0;background:var(--panel);border-top:1px solid var(--fair);z-index:50;transform:translateY(110%);transition:transform .28s cubic-bezier(.3,.8,.3,1);border-radius:18px 18px 0 0;box-shadow:0 -10px 40px rgba(0,0,0,.5)}
+  .slip.up{transform:translateY(0)}
+  .slip-in{max-width:760px;margin:0 auto;padding:16px 16px calc(16px + env(safe-area-inset-bottom))}
+  .sh{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+  .sh .t{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:22px;letter-spacing:.8px;text-transform:uppercase}
+  .sh .x{background:none;border:none;color:var(--dim);font-size:26px;line-height:1;cursor:pointer;padding:0 4px}
+  .selq{font-size:15px;font-weight:600}
+  .selq b{color:var(--fair)}
+  .selmeta{font-size:12.5px;color:var(--dim);margin:4px 0 10px}
+  .settle{display:flex;gap:8px;background:var(--ink);border:1px solid var(--line);border-left:2px solid var(--fair);border-radius:8px;padding:9px 11px;font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.45}
+  .settle b{color:var(--fair)}
+  .fl-lab{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px;display:block}
+  .stake{display:flex;align-items:center;border:1px solid var(--line2);border-radius:10px;background:var(--ink)}
+  .stake span{padding:0 13px;color:var(--dim);font-size:18px}
+  .stake input{flex:1;background:transparent;border:none;color:var(--paper);font-family:'Spline Sans Mono',monospace;font-size:20px;padding:13px 0;outline:none;min-width:0}
+  .quick{display:flex;gap:7px;margin-top:9px}
+  .quick button{flex:1;border:1px solid var(--line);background:var(--ink);color:var(--muted);font-family:inherit;font-size:13px;padding:8px;border-radius:8px;cursor:pointer}
+  .rk-h{display:flex;justify-content:space-between;font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin:16px 0 9px}
+  .rk-h b{color:var(--price)}
+  input[type=range]{width:100%;-webkit-appearance:none;height:4px;border-radius:4px;background:var(--line2)}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--price);cursor:pointer;border:4px solid var(--panel);box-shadow:0 0 0 1px var(--price)}
+  input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--price);cursor:pointer;border:4px solid var(--panel)}
+  .po{display:flex;gap:8px;margin-top:14px}
+  .po div.cell{flex:1;border:1px solid var(--line);border-radius:9px;padding:9px 10px;text-align:center}
+  .po .k{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px}
+  .po .v{font-size:16px;font-weight:600;font-family:'Spline Sans Mono',monospace;margin-top:3px}
+  .po .win .v{color:var(--win)}.po .ls .v{color:var(--loss)}
+  .pnote{font-size:11.5px;color:var(--dim);margin-top:9px;line-height:1.5}
+  .place{margin-top:13px;width:100%;background:var(--price);color:#06120e;border:none;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:22px;letter-spacing:1px;text-transform:uppercase;padding:14px;border-radius:11px;cursor:pointer;box-shadow:3px 3px 0 var(--spray)}
+  .place:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--spray)}
+  .place:disabled{opacity:.4;box-shadow:none}
+
+  footer{border-top:1px solid var(--line);padding:22px 0 30px;margin-top:24px;color:var(--dim);font-size:11.5px;line-height:1.65}
+  footer b{color:var(--muted)}
+  .toast{position:fixed;left:16px;right:16px;bottom:16px;max-width:728px;margin:0 auto;background:var(--fair);color:#06120e;padding:14px 16px;border-radius:12px;font-size:13.5px;font-weight:600;transform:translateY(160px);transition:.3s;z-index:60;box-shadow:0 8px 30px rgba(0,0,0,.4)}
+  .toast.show{transform:translateY(0)}
+  .toast.lose{background:var(--loss)}
+</style>
+</head>
+<body>
+
+<header><div class="wrap">
+  <div class="logo">Fut<span>sal</span></div>
+  <div class="live"><span class="dot"></span><span id="t_live">live</span></div>
+  <div class="langwrap">
+    <button class="langbtn" id="langbtn" onclick="toggleLang()"><span id="langflag">🇬🇧</span> <span id="langcode">EN</span> ▾</button>
+    <div class="langmenu" id="langmenu"></div>
+  </div>
+  <div class="bal"><div class="l" id="t_balance">Play balance</div><b id="bank">$1,000</b></div>
+</div></header>
+
+<div class="intro"><div class="wrap">
+  <h2><span id="t_tagA">Every book hides the cut.</span> <em id="t_tagB">We print it on every bet.</em></h2>
+  <p id="t_intro">World Cup in-game markets down to the next card and corner, each one showing the fair price beside what you pay, and a risk slider that softens losses. Settled on the same official data the big books use.</p>
+  <div class="chips">
+    <span class="chip amber"><span id="t_ourMargin">Our margin</span> <b>2.2%</b></span>
+    <span class="chip"><span id="t_typicalBook">Typical book</span> <b style="color:var(--loss)">5–7%</b></span>
+    <span class="chip"><span id="t_settlesVia">Settles via</span> <b>FIFA · Opta</b></span>
+  </div>
+</div></div>
+
+<div class="wrap">
+  <div class="mscroll" id="mscroll"></div>
+  <div class="board" id="board"></div>
+</div>
+
+<div class="tabs" id="tabs"></div>
+
+<div class="wrap"><div id="markets"></div>
+
+<div class="edge">
+  <b id="t_edgeTitle">Why this beats the big books on value, not depth</b>
+  <p id="t_edgeBody">They carry more markets and win on selection. Futsal wins on honesty: the no-margin fair line on every pick, and you choose your own risk. No one else shows you the cut.</p>
+</div>
+</div>
+
+<footer><div class="wrap">
+  <b>Prototype · play money · not a real sportsbook.</b><br>
+  Markets settle on the official record. Results and goals from FIFA, and cards, fouls and corners from Opta, the same provider the major books use. Real settlement rules apply: both yellow and red cards count and only players on the pitch count; corners awarded but not taken don't count; a card's 10-minute window runs by the referee's match clock. Stat values and props here are illustrative placeholders. A live book feeds these from a paid Opta data pipeline. The <b>fair</b> price is the zero-margin line (our cut: 2.2%). The risk slider trims your win to fund a loss-floor: lower variance, same house edge, and it never beats fair odds. Real-money betting requires licensing, KYC, geolocation and age verification, and is jurisdiction-restricted.
+</div></footer>
+
+<div class="slip" id="slip"><div class="slip-in" id="slipBody"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const MARGIN=0.022;
+let bank=1000, sel=null, curMatch=0, curTab='result', lang='en';
+
+// ---- translations ----
+const LANGS=[['en','English','🇬🇧'],['es','Español','🇪🇸'],['fr','Français','🇫🇷'],['pt','Português','🇵🇹'],['de','Deutsch','🇩🇪'],['ar','العربية','🇸🇦']];
+const RTL=['ar'];
+const I18N={
+ en:{tagline_a:'Every book hides the cut.',tagline_b:'We print it on every bet.',
+  intro:'World Cup in-game markets down to the next card and corner, each one showing the fair price beside what you pay, and a risk slider that softens losses. Settled on the same official data the big books use.',
+  ourMargin:'Our margin',typicalBook:'Typical book',settlesVia:'Settles via',balance:'Play balance',live:'live',
+  edgeTitle:'Why this beats the big books on value, not depth',edgeBody:'They carry more markets and win on selection. Futsal wins on honesty: the no-margin fair line on every pick, and you choose your own risk. No one else shows you the cut.',
+  result:'Result',goals:'Goals',cards:'Cards',fouls:'Fouls & corners',
+  betSlip:'Bet slip',youPay:'you pay',fair:'fair',settleNote:'checkable on the official record after full time.',
+  yourStake:'Your stake',fullPayout:'Full payout · full risk',winCapped:'Win capped to fund floor',protect:'protect',
+  ifWins:'If it wins',ifLoses:'If it loses',placeBet:'Place play bet',notEnough:'Not enough balance',
+  win:'win',preMatch:'pre-match',opensKickoff:'opens at kickoff',highres:'high-res',settlesvia2:'settles via',
+  won:'won',lost:'lost',marginNote:'Margin on this bet:',marginNote2:', shown in full. Drag the slider to soften a loss.',
+  trimNote1:'Win trimmed',trimNote2:'so a loss costs only',trimNote3:'instead of',trimNote4:'. Same expected value, just less swing.',
+  toWin:'to win',draw:'Draw'},
+ es:{tagline_a:'Las casas ocultan su comisión.',tagline_b:'Nosotros la mostramos en cada apuesta.',
+  intro:'Mercados en vivo del Mundial hasta la próxima tarjeta y córner, cada uno muestra el precio justo junto a lo que pagas, y un control de riesgo que suaviza las pérdidas. Liquidado con los mismos datos oficiales que usan las grandes casas.',
+  ourMargin:'Nuestro margen',typicalBook:'Casa típica',settlesVia:'Liquida vía',balance:'Saldo de juego',live:'en vivo',
+  edgeTitle:'Por qué gana en valor, no en cantidad',edgeBody:'Ellos tienen más mercados y ganan en variedad. Futsal gana en honestidad: la línea justa sin margen en cada selección, y tú eliges tu riesgo. Nadie más te muestra la comisión.',
+  result:'Resultado',goals:'Goles',cards:'Tarjetas',fouls:'Faltas y córners',
+  betSlip:'Boleto',youPay:'pagas',fair:'justo',settleNote:'verificable en el registro oficial al final del partido.',
+  yourStake:'Tu apuesta',fullPayout:'Pago completo · riesgo total',winCapped:'Ganancia limitada para cubrir el piso',protect:'proteger',
+  ifWins:'Si gana',ifLoses:'Si pierde',placeBet:'Apostar',notEnough:'Saldo insuficiente',
+  win:'gana',preMatch:'previo',opensKickoff:'abre al inicio',highres:'alta-res',settlesvia2:'liquida vía',
+  won:'ganaste',lost:'perdiste',marginNote:'Margen de esta apuesta:',marginNote2:', mostrado al completo. Desliza para suavizar una pérdida.',
+  trimNote1:'Ganancia reducida',trimNote2:'para que perder cueste sólo',trimNote3:'en vez de',trimNote4:'. Mismo valor esperado, menos oscilación.',
+  toWin:'gana',draw:'Empate'},
+ fr:{tagline_a:'Les books cachent leur marge.',tagline_b:'Nous l\'affichons sur chaque pari.',
+  intro:'Marchés en direct de la Coupe du Monde jusqu\'au prochain carton et corner, chacun affiche le prix juste à côté de ce que vous payez, avec un curseur de risque qui adoucit les pertes. Réglé sur les mêmes données officielles que les grands books.',
+  ourMargin:'Notre marge',typicalBook:'Book classique',settlesVia:'Réglé via',balance:'Solde de jeu',live:'en direct',
+  edgeTitle:'Pourquoi gagner en valeur, pas en quantité',edgeBody:'Ils ont plus de marchés et gagnent sur le choix. Futsal gagne sur l\'honnêteté : la cote juste sans marge sur chaque sélection, et vous choisissez votre risque. Personne d\'autre ne montre la marge.',
+  result:'Résultat',goals:'Buts',cards:'Cartons',fouls:'Fautes & corners',
+  betSlip:'Coupon',youPay:'vous payez',fair:'juste',settleNote:'vérifiable sur le registre officiel après le match.',
+  yourStake:'Votre mise',fullPayout:'Gain complet · risque total',winCapped:'Gain plafonné pour financer le plancher',protect:'protéger',
+  ifWins:'Si gagné',ifLoses:'Si perdu',placeBet:'Parier',notEnough:'Solde insuffisant',
+  win:'gagne',preMatch:'avant-match',opensKickoff:'ouvre au coup d\'envoi',highres:'haute-rés',settlesvia2:'réglé via',
+  won:'gagné',lost:'perdu',marginNote:'Marge sur ce pari :',marginNote2:', affichée en entier. Glissez pour adoucir une perte.',
+  trimNote1:'Gain réduit de',trimNote2:'pour qu\'une perte ne coûte que',trimNote3:'au lieu de',trimNote4:'. Même valeur attendue, moins de variance.',
+  toWin:'gagne',draw:'Nul'},
+ pt:{tagline_a:'As casas escondem a comissão.',tagline_b:'Nós mostramos em cada aposta.',
+  intro:'Mercados ao vivo da Copa do Mundo até o próximo cartão e escanteio, cada um mostra o preço justo ao lado do que você paga, e um controle de risco que suaviza perdas. Liquidado com os mesmos dados oficiais das grandes casas.',
+  ourMargin:'Nossa margem',typicalBook:'Casa comum',settlesVia:'Liquida via',balance:'Saldo de jogo',live:'ao vivo',
+  edgeTitle:'Por que vence em valor, não em quantidade',edgeBody:'Eles têm mais mercados e vencem na variedade. A Futsal vence na honestidade: a linha justa sem margem em cada escolha, e você escolhe seu risco. Ninguém mais mostra a comissão.',
+  result:'Resultado',goals:'Gols',cards:'Cartões',fouls:'Faltas e escanteios',
+  betSlip:'Bilhete',youPay:'você paga',fair:'justo',settleNote:'verificável no registro oficial após o fim do jogo.',
+  yourStake:'Sua aposta',fullPayout:'Pagamento total · risco total',winCapped:'Ganho limitado para cobrir o piso',protect:'proteger',
+  ifWins:'Se ganhar',ifLoses:'Se perder',placeBet:'Apostar',notEnough:'Saldo insuficiente',
+  win:'vence',preMatch:'pré-jogo',opensKickoff:'abre no início',highres:'alta-res',settlesvia2:'liquida via',
+  won:'ganhou',lost:'perdeu',marginNote:'Margem desta aposta:',marginNote2:', mostrada por completo. Arraste para suavizar uma perda.',
+  trimNote1:'Ganho reduzido em',trimNote2:'para que perder custe apenas',trimNote3:'em vez de',trimNote4:'. Mesmo valor esperado, menos oscilação.',
+  toWin:'vence',draw:'Empate'},
+ de:{tagline_a:'Buchmacher verstecken die Marge.',tagline_b:'Wir drucken sie auf jede Wette.',
+  intro:'Live-WM-Märkte bis zur nächsten Karte und Ecke, jeder zeigt den fairen Preis neben dem, was du zahlst, plus ein Risiko-Regler, der Verluste abfedert. Abgerechnet mit denselben offiziellen Daten wie die großen Buchmacher.',
+  ourMargin:'Unsere Marge',typicalBook:'Üblicher Buchmacher',settlesVia:'Abrechnung über',balance:'Spielguthaben',live:'live',
+  edgeTitle:'Warum es bei Wert gewinnt, nicht bei Auswahl',edgeBody:'Sie haben mehr Märkte und gewinnen bei der Auswahl. Futsal gewinnt bei Ehrlichkeit: die faire Quote ohne Marge bei jeder Wahl, und du wählst dein Risiko. Niemand sonst zeigt die Marge.',
+  result:'Ergebnis',goals:'Tore',cards:'Karten',fouls:'Fouls & Ecken',
+  betSlip:'Wettschein',youPay:'du zahlst',fair:'fair',settleNote:'nach Spielende im offiziellen Protokoll prüfbar.',
+  yourStake:'Dein Einsatz',fullPayout:'Volle Auszahlung · volles Risiko',winCapped:'Gewinn gedeckelt zur Verlustabsicherung',protect:'schützen',
+  ifWins:'Bei Gewinn',ifLoses:'Bei Verlust',placeBet:'Wette setzen',notEnough:'Nicht genug Guthaben',
+  win:'Sieg',preMatch:'vor dem Spiel',opensKickoff:'öffnet beim Anpfiff',highres:'hochauflösend',settlesvia2:'Abrechnung über',
+  won:'gewonnen',lost:'verloren',marginNote:'Marge dieser Wette:',marginNote2:', voll angezeigt. Schiebe den Regler, um Verluste abzufedern.',
+  trimNote1:'Gewinn um',trimNote2:'gekürzt, sodass ein Verlust nur',trimNote3:'statt',trimNote4:'kostet. Gleicher Erwartungswert, weniger Schwankung.',
+  toWin:'Sieg',draw:'Unentschieden'},
+ ar:{tagline_a:'الشركات تخفي عمولتها.',tagline_b:'نحن نظهرها في كل رهان.',
+  intro:'أسواق كأس العالم المباشرة حتى البطاقة والركنية القادمة، كل سوق يُظهر السعر العادل بجانب ما تدفعه، مع منزلق مخاطرة يخفف الخسائر. تتم التسوية بنفس البيانات الرسمية التي تستخدمها الشركات الكبرى.',
+  ourMargin:'عمولتنا',typicalBook:'شركة عادية',settlesVia:'التسوية عبر',balance:'رصيد اللعب',live:'مباشر',
+  edgeTitle:'لماذا نتفوق بالقيمة لا بالعدد',edgeBody:'لديهم أسواق أكثر ويتفوقون بالتنوع. فوتسال يتفوق بالصدق: السعر العادل بلا عمولة في كل اختيار، وأنت تختار مخاطرتك. لا أحد غيرنا يُظهر العمولة.',
+  result:'النتيجة',goals:'الأهداف',cards:'البطاقات',fouls:'الأخطاء والركنيات',
+  betSlip:'قسيمة الرهان',youPay:'تدفع',fair:'العادل',settleNote:'قابل للتحقق في السجل الرسمي بعد نهاية المباراة.',
+  yourStake:'رهانك',fullPayout:'دفع كامل · مخاطرة كاملة',winCapped:'الربح محدود لتمويل الحماية',protect:'حماية',
+  ifWins:'إذا فاز',ifLoses:'إذا خسر',placeBet:'ضع الرهان',notEnough:'الرصيد غير كافٍ',
+  win:'فوز',preMatch:'قبل المباراة',opensKickoff:'يفتح عند البداية',highres:'دقة عالية',settlesvia2:'التسوية عبر',
+  won:'ربحت',lost:'خسرت',marginNote:'هامش هذا الرهان:',marginNote2:'، معروض بالكامل. حرّك المنزلق لتخفيف الخسارة.',
+  trimNote1:'تم خفض الربح بمقدار',trimNote2:'لتكون الخسارة فقط',trimNote3:'بدلاً من',trimNote4:'. نفس القيمة المتوقعة, تقلب أقل.',
+  toWin:'فوز',draw:'تعادل'},
+};
+const t=k=>I18N[lang][k]||I18N.en[k]||k;
+
+const matches=[
+ {stage:'Round of 16',live:true,clk:"63'",half:'2nd half',fl:'🇫🇷',fa:'🇸🇪',n:'France',na:'Sweden',g:1,ga:0,
+  pH:0.748,pD:0.152,pA:0.10,scorers:['Mbappé','Olise','Dembélé','Isak (SWE)']},
+ {stage:'Round of 16',live:true,clk:"28'",half:'1st half',fl:'🇲🇽',fa:'🇪🇨',n:'Mexico',na:'Ecuador',g:0,ga:0,
+  pH:0.425,pD:0.327,pA:0.248,scorers:['R. Jiménez','H. Lozano','E. Valencia (ECU)','Caicedo (ECU)']},
+ {stage:'Round of 16',live:false,clk:'4:00',half:'kickoff',fl:'🇧🇪',fa:'🇸🇳',n:'Belgium',na:'Senegal',g:0,ga:0,
+  pH:0.436,pD:0.291,pA:0.273,scorers:['De Bruyne','Lukaku','S. Mané (SEN)','I. Sarr (SEN)']},
+ {stage:'Round of 16',live:false,clk:'8:00',half:'kickoff',fl:'🇺🇸',fa:'🇧🇦',n:'USA',na:'Bosnia',g:0,ga:0,
+  pH:0.701,pD:0.191,pA:0.108,scorers:['Pulisic','Weah','Balogun','Džeko (BIH)']},
+];
+
+const fair=p=>1/p, price=p=>(1/p)*(1-MARGIN);
+const money=n=>'$'+(Math.round(n*100)/100).toLocaleString('en-US',{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2});
+
+function mk(m){
+  const live=m.live;
+  return {
+   result:[
+    {g:t('result'),tag:live?'live':'',sub:'90 min + stoppage',src:'FIFA',rows:[
+      {q:m.n+' '+t('toWin'),p:[['1',m.pH]]},{q:t('draw'),p:[['X',m.pD]]},{q:m.na+' '+t('toWin'),p:[['2',m.pA]]}]},
+    {g:'Double chance',sub:'',src:'FIFA',rows:[
+      {q:m.n+' / '+t('draw'),p:[['1X',Math.min(.94,m.pH+m.pD)]]},
+      {q:m.n+' / '+m.na,p:[['12',Math.min(.94,m.pH+m.pA)]]},
+      {q:m.na+' / '+t('draw'),p:[['X2',Math.min(.94,m.pA+m.pD)]]}]},
+   ],
+   goals:[
+    {g:'Total goals',tag:live?'live':'',sub:(live?'scored + remaining · ':'')+'own goals count',src:'FIFA / Opta',rows:[
+      {q:'Over 2.5',p:[['Over',live?.40:.52],['Under',live?.60:.48]]},
+      {q:'Over 3.5',p:[['Over',live?.20:.30],['Under',live?.80:.70]]},
+      {q:'Both teams score',p:[['Yes',live?.44:.55],['No',live?.56:.45]]}]},
+    {g:'Next goal',tag:live?'live':'',sub:live?'who finds the next goal':'opens at kickoff',src:'Opta live',live:true,rows:live?[
+      {q:'Next goal',p:[[m.n,m.pH*.85],['None',.18],[m.na,m.pA*.9]]}]:[]},
+    {g:'Anytime goalscorer',tag:'hr',sub:'scores any time · own goals excluded',src:'Opta',rows:
+      m.scorers.map((s,i)=>({q:s,p:[['Yes',[.42,.30,.24,.17][i]||.15]]}))},
+   ],
+   cards:[
+    {g:'Total cards',tag:live?'live':'',sub:'yellow & red count · players on pitch only',src:'Opta',rows:[
+      {q:'Over 3.5 cards',p:[['Over',.55],['Under',.45]]},
+      {q:'Over 4.5 cards',p:[['Over',.38],['Under',.62]]},
+      {q:'A red card shown',p:[['Yes',.17],['No',.83]]}]},
+    {g:'Next booking',tag:live?'live':'',sub:live?'which side gets carded next':'opens at kickoff',src:'Opta live',live:true,rows:live?[
+      {q:'Next card',p:[[m.n,.46],[m.na,.54]]}]:[]},
+    {g:'Card in window',tag:'hr',sub:live?"a card before 73' · by referee clock":'a card before half-time',src:'Opta',rows:[
+      {q:live?"Card before 73'":'Card before HT',p:[['Yes',.34],['No',.66]]}]},
+   ],
+   fouls:[
+    {g:'Total fouls',tag:live?'live':'',sub:'whistled fouls, both teams',src:'Opta',rows:[
+      {q:'Over 21.5 fouls',p:[['Over',.50],['Under',.50]]},
+      {q:'Over 24.5 fouls',p:[['Over',.36],['Under',.64]]}]},
+    {g:'Corners',tag:live?'live':'',sub:'taken corners only · re-takes count once',src:'Opta',rows:[
+      {q:'Over 9.5 corners',p:[['Over',.49],['Under',.51]]},
+      {q:m.n+' most corners',p:[['Yes',m.pH*.8+.1],['No',1-(m.pH*.8+.1)]]}]},
+    {g:'Next 10 minutes',tag:'hr',sub:live?'micro-market · re-prices each minute':'opens at kickoff',src:'Opta live',live:true,rows:live?[
+      {q:"A goal before 73'",p:[['Yes',.26],['No',.74]]},
+      {q:"A corner before 70'",p:[['Yes',.58],['No',.42]]}]:[]},
+   ],
+  };
+}
+const TABS=[['result','result'],['goals','goals'],['cards','cards'],['fouls','fouls']];
+
+function renderMscroll(){
+  document.getElementById('mscroll').innerHTML=matches.map((m,i)=>`
+    <div class="mcard ${i===curMatch?'on':''}" onclick="selMatch(${i})">
+      <div class="when">${m.live?'<span class="live-d"></span>LIVE '+m.clk:m.clk+' ET'}</div>
+      <div class="vs">${m.fl} ${m.n}<br>${m.fa} ${m.na}</div>
+      <div class="sc">${m.live?m.g+' – '+m.ga:'pre-match'}</div>
+    </div>`).join('');
+}
+function renderBoard(){
+  const m=matches[curMatch];
+  document.getElementById('board').innerHTML=`<div class="row">
+    <div class="tm h"><span class="fl">${m.fl}</span><div><div class="nm">${m.n}</div><div class="wp">${t('win')} ${Math.round(m.pH*100)}%</div></div></div>
+    <div class="gl">${m.g}</div>
+    <div class="ck"><div class="m">${m.live?m.clk:'–'}</div><div class="s">${m.half}</div></div>
+    <div class="gl">${m.ga}</div>
+    <div class="tm a"><span class="fl">${m.fa}</span><div><div class="nm">${m.na}</div><div class="wp">${t('win')} ${Math.round(m.pA*100)}%</div></div></div>
+  </div>`;
+}
+function renderTabs(){
+  document.getElementById('tabs').innerHTML='<div class="wrap" style="display:flex;gap:6px">'+
+    TABS.map(([k,l])=>`<button class="tab ${k===curTab?'on':''}" onclick="selTab('${k}')">${t(l)}</button>`).join('')+'</div>';
+}
+function renderMarkets(){
+  const data=mk(matches[curMatch])[curTab];
+  document.getElementById('markets').innerHTML=data.map(grp=>{
+    const tagH=grp.tag==='live'?'<span class="tag live">● live</span>':grp.tag==='hr'?'<span class="tag hr">high-res</span>':'';
+    if(!grp.rows.length) return `<div class="grp"><div class="ghead"><h3>${grp.g}</h3>${tagH}</div><div class="locked">${grp.sub}</div></div>`;
+    return `<div class="grp">
+      <div class="ghead"><h3>${grp.g}</h3>${tagH}</div>
+      <div class="gsub">${grp.sub?grp.sub+' · ':''}<span class="src">${t('settlesvia2')} ${grp.src}</span></div>
+      ${grp.rows.map(r=>`<div class="mk"><div class="q">${r.q}</div><div class="picks">${
+        r.p.map(([lab,p])=>{
+          const id=curMatch+'|'+curTab+'|'+r.q+'|'+lab, on=sel&&sel.id===id;
+          return `<button class="pk ${on?'sel':''}" onclick='choose(${JSON.stringify(id)},${JSON.stringify(r.q)},${JSON.stringify(lab)},${p},${JSON.stringify(grp.src)})'>
+            <span class="lab">${lab}</span><span class="od">${price(p).toFixed(2)}</span><span class="fr">fair ${fair(p).toFixed(2)}</span></button>`;
+        }).join('')}</div></div>`).join('')}
+    </div>`;
+  }).join('');
+}
+function selMatch(i){curMatch=i;sel=null;closeSlip();renderMscroll();renderBoard();renderMarkets();}
+function selTab(k){curTab=k;renderTabs();renderMarkets();}
+
+function choose(id,q,lab,p,src){sel={id,q,lab,p,src};renderMarkets();openSlip();}
+function openSlip(){
+  const m=matches[curMatch];
+  document.getElementById('slipBody').innerHTML=`
+    <div class="sh"><div class="t">${t('betSlip')}</div><button class="x" onclick="closeSlip()">×</button></div>
+    <div class="selq"><b>${sel.lab}</b> · ${sel.q}</div>
+    <div class="selmeta">${m.fl} ${m.n} v ${m.na} ${m.fa} · ${t('youPay')} ${price(sel.p).toFixed(2)} · ${t('fair')} ${fair(sel.p).toFixed(2)}</div>
+    <div class="settle">⚖ <span>${t('settlesVia')} <b>${sel.src}</b>. ${t('settleNote')}</span></div>
+    <span class="fl-lab">${t('yourStake')}</span>
+    <div class="stake"><span>$</span><input id="stake" type="number" inputmode="decimal" min="1" value="25"></div>
+    <div class="quick">${[10,25,50,100].map(v=>`<button onclick="setStake(${v})">$${v}</button>`).join('')}</div>
+    <div class="rk-h"><span id="rl">${t('fullPayout')}</span><span id="rr">${t('protect')} <b>0%</b></span></div>
+    <input id="risk" type="range" min="0" max="80" step="10" value="0">
+    <div class="po">
+      <div class="cell win"><div class="k">${t('ifWins')}</div><div class="v" id="pw"></div></div>
+      <div class="cell ls"><div class="k">${t('ifLoses')}</div><div class="v" id="pl"></div></div>
+    </div>
+    <div class="pnote" id="pn"></div>
+    <button class="place" id="place" onclick="place()">${t('placeBet')}</button>`;
+  document.getElementById('slip').classList.add('up');
+  document.getElementById('stake').oninput=calc;
+  document.getElementById('risk').oninput=calc;
+  calc();
+}
+function setStake(v){document.getElementById('stake').value=v;calc();}
+function closeSlip(){document.getElementById('slip').classList.remove('up');sel=null;renderMarkets();}
+function calc(){
+  const stake=Math.max(0,+document.getElementById('stake').value||0);
+  const protect=+document.getElementById('risk').value/100, p=sel.p;
+  const baseProfit=stake*(price(p)-1), refunded=protect*stake, trim=((1-p)*refunded)/p;
+  const adj=baseProfit-trim, loss=stake-refunded;
+  document.getElementById('pw').textContent='+'+money(adj);
+  document.getElementById('pl').textContent='-'+money(loss);
+  document.getElementById('rl').textContent=protect>0?t('winCapped'):t('fullPayout');
+  document.getElementById('rr').innerHTML=t('protect')+' <b>'+Math.round(protect*100)+'%</b>';
+  document.getElementById('pn').textContent=protect>0
+    ? `${t('trimNote1')} ${money(trim)} ${t('trimNote2')} ${money(loss)} ${t('trimNote3')} ${money(stake)}${t('trimNote4')}`
+    : `${t('marginNote')} ${money(stake*MARGIN)} (2.2%)${t('marginNote2')}`;
+  const b=document.getElementById('place');
+  b.disabled=stake<=0||stake>bank;
+  b.textContent=stake>bank?t('notEnough'):t('placeBet')+' · '+money(stake);
+}
+function place(){
+  const stake=+document.getElementById('stake').value, protect=+document.getElementById('risk').value/100, p=sel.p;
+  const refunded=protect*stake, trim=((1-p)*refunded)/p, adj=stake*(price(p)-1)-trim, loss=stake-refunded;
+  const won=Math.random()<p;
+  bank+=won?adj:-loss;
+  document.getElementById('bank').textContent=money(bank);
+  toast(won?`✓ ${sel.lab} · ${sel.q}: ${t('won')} ${money(adj)}`:`✗ ${sel.lab} · ${sel.q}: ${t('lost')} ${money(loss)}`,won);
+  closeSlip();
+}
+function toast(msg,won){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show'+(won?'':' lose');setTimeout(()=>t.className='toast'+(won?'':' lose'),3200);}
+
+function applyStatic(){
+  const map={t_live:'live',t_balance:'balance',t_tagA:'tagline_a',t_tagB:'tagline_b',t_intro:'intro',
+    t_ourMargin:'ourMargin',t_typicalBook:'typicalBook',t_settlesVia:'settlesVia',t_edgeTitle:'edgeTitle',t_edgeBody:'edgeBody'};
+  for(const id in map){const el=document.getElementById(id);if(el)el.textContent=t(map[id]);}
+}
+function renderLangMenu(){
+  document.getElementById('langmenu').innerHTML=LANGS.map(([code,name,fl])=>
+    `<button class="${code===lang?'on':''}" onclick="setLang('${code}')">${fl} ${name}</button>`).join('');
+  const cur=LANGS.find(l=>l[0]===lang);
+  document.getElementById('langflag').textContent=cur[2];
+  document.getElementById('langcode').textContent=lang.toUpperCase();
+}
+function toggleLang(){document.getElementById('langmenu').classList.toggle('open');}
+function setLang(code){
+  lang=code;
+  document.documentElement.lang=code;
+  document.documentElement.dir=RTL.includes(code)?'rtl':'ltr';
+  document.getElementById('langmenu').classList.remove('open');
+  renderLangMenu();applyStatic();renderMscroll();renderBoard();renderTabs();renderMarkets();
+  if(sel)openSlip();
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.langwrap')) document.getElementById('langmenu').classList.remove('open');
+});
+
+renderLangMenu();applyStatic();renderMscroll();renderBoard();renderTabs();renderMarkets();
+</script>
+</body>
+</html>
